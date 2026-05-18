@@ -1,21 +1,13 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+import asyncio
 app=FastAPI()
 
-class Item(BaseModel):
-    name:str
-    price:float
-    tax:float=None
-@app.post('/item')
-async def create_item(item:Item):
-    if item.tax:
-        price_with_tax=item.price+item.tax
-    return {
-        "name":item.name,
-        "price":item.price,
-        "tax":item.tax,
-        "price_with_tax":price_with_tax
-    }
-@app.get('/')
-def read_root():
-    return {"message": "Hello World"}
+@app.get("/users/{user_id}")
+async def get_user(user_id:int):
+    await asyncio.sleep(5)
+    return {"user_id":user_id}
+@app.get("/user_name/{user_name}")
+async def get_user_name(user_name:str):
+    return user_name
+
