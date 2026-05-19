@@ -1,15 +1,26 @@
 from fastapi import FastAPI,Depends
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app=FastAPI()
 
-def get_message(msg:str):
-    return 'Hello from dependencyinjection:'
+
+origins=["http://localhost:5500"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get('/')
-def users(msg = Depends(get_message)):
-    return f'{msg}'
-
+def index():
+    return {'message':'hello world'}
+    
+@app.post('/user')
 
 
